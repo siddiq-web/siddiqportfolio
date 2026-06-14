@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Mohammed Siddiq M S | Electronics And Communication Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        clinical: {
+                            50: '#f0fdfa', // Clinical mint highlight tint
+                            100: '#ccfbf1',
+                            600: '#0d9488', // Core medical sterile teal
+                            700: '#0f766e',
+                            900: '#134e4a',
+                        },
+                        diagnostic: {
+                            50: '#f0f9ff', // Diagnostic clear blue tint
+                            500: '#0ea5e9', // Equipment screen cyan
+                            600: '#0284c7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(13, 148, 136, 0.1);
+            border-color: rgba(13, 148, 136, 0.3);
+        }
+        .pulse-circle {
+            animation: pulse-glow 3s infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.08); opacity: 0.3; }
+        }
+        .ecg-line {
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            animation: draw-signal 5s linear infinite;
+        }
+        @keyframes draw-signal {
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-clinical-600 to-diagnostic-500 z-50 transition-all duration-700" style="width: 0%"></div>
+
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-40">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3rem_3rem]"></div>
+    </div>
+
+    <header class="fixed top-0 inset-x-0 z-40 h-20 transition-all duration-300 glass-panel">
+        <div class="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-clinical-600 to-diagnostic-500 flex items-center justify-center text-white font-display font-bold text-lg shadow-md shadow-clinical-600/10">
+                    SID
+                </div>
+                <div>
+                    <span class="block font-display font-bold text-slate-800 tracking-wide text-md">Mohammed Siddiq M S </span>
+                    <span class="block text-[10px] font-bold text-clinical-600 tracking-widest uppercase">Electronics And Communication Engineer</span>
+                </div>
+            </a>
+
+           <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="#profile" class="hover:text-clinical-600 transition-colors">Profile</a>
+                <a href="#competencies" class="hover:text-clinical-600 transition-colors">Competencies</a>
+                <a href="#experience" class="hover:text-clinical-600 transition-colors">Experience</a>
+                <a href="#exposure" class="hover:text-clinical-600 transition-colors">Equipment</a>
+                <a href="#projects" class="hover:text-clinical-600 transition-colors">Projects</a>
+                <a href="#patents" class="hover:text-clinical-600 transition-colors">Innovations</a>
+                <a href="#publications" class="hover:text-clinical-600 transition-colors">Awards</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button onclick="downloadResume()" class="relative group hidden sm:inline-flex items-center justify-center p-0.5 overflow-hidden text-xs font-bold uppercase tracking-wider text-slate-900 rounded-xl bg-gradient-to-br from-clinical-600 to-diagnostic-500 hover:text-white transition-all">
+                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-xl group-hover:bg-opacity-0 text-slate-800 group-hover:text-white flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i> Download CV
+                    </span>
+                </button>
+                <button id="menu-toggle" class="md:hidden p-2 text-slate-600 hover:text-clinical-600">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-drawer" class="fixed inset-0 z-50 bg-white/95 backdrop-blur-lg translate-x-full transition-transform duration-300 flex flex-col justify-center p-8 md:hidden">
+        <button id="menu-close" class="absolute top-6 right-6 p-2 text-slate-600">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <nav class="flex flex-col gap-6 text-xl font-bold text-slate-800 text-center">
+            <a href="#profile" class="drawer-link">Profile</a>
+            <a href="#competencies" class="drawer-link">Competencies</a>
+            <a href="#experience" class="drawer-link">Experience</a>
+            <a href="#exposure" class="drawer-link">Equipment Exposure</a>
+            <a href="#projects" class="drawer-link">Academic Projects</a>
+            <a href="#patents" class="hover:text-clinical-600 transition-colors">Patents</a>
+            <a href="#publications" class="drawer-link">Publications</a>
+            <button onclick="downloadResume()" class="mt-4 bg-gradient-to-r from-clinical-600 to-diagnostic-500 text-white py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-wider">
+                <i data-lucide="download" class="w-4 h-4"></i> Download CV
+            </button>
+        </nav>
+    </div>
+
+    <section class="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden bg-gradient-to-b from-diagnostic-50 via-white to-slate-50 z-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full py-12">
+            
+            <div class="lg:col-span-7 flex flex-col justify-center text-center lg:text-left hero-content">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-clinical-50 border border-clinical-100 text-clinical-700 text-xs font-bold tracking-wide uppercase mb-6 mx-auto lg:mx-0 shadow-sm w-fit">
+                    <span class="w-2 h-2 rounded-full bg-clinical-600 animate-pulse"></span> Open To Work
+                </div>
+                <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-slate-900 leading-[1.15] mb-6">
+                    Engineering Solutions Through<span class="bg-gradient-to-r from-clinical-600 to-diagnostic-500 bg-clip-text text-transparent"> IoT & Robotics</span>
+                </h1>
+                <p class="text-base sm:text-lg text-slate-600 max-w-2xl mb-8 leading-relaxed mx-auto lg:mx-0">
+                   Electronics and Communication Engineer with hands-on experience in embedded systems, IoT, and robotics. Strong background in R&D, with a proven ability to develop and implement technology-driven projects. Also experienced in freelance web development, building responsive, professional websites.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+                    <a href="#contact" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-clinical-600 to-diagnostic-500 text-white font-semibold rounded-xl shadow-md shadow-clinical-600/10 hover:shadow-lg transition-all flex items-center justify-center gap-2 group">
+                        Contact Professional <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <button onclick="downloadResume()" class="w-full sm:w-auto px-8 py-4 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 shadow-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="file-text" class="w-4 h-4 text-clinical-600"></i> Review Executive CV
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200 max-w-md mx-auto lg:mx-0">
+                    <div>
+                        <span class="block font-display font-bold text-2xl sm:text-3xl text-slate-800 counter-val" data-target="12">0</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mt-1">Real-world Solutions</span>
+                    </div>
+                    <div>
+                        <span class="block font-display font-bold text-2xl sm:text-3xl text-slate-800 counter-val" data-target="2"></span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mt-1">Experience</span>
+                    </div>
+                    <div>
+                        <span class="block font-display font-bold text-2xl sm:text-3xl text-slate-800 counter-val" data-target="6">0</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mt-1">Awards</span>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 flex justify-center items-center relative min-h-[400px]">
+                <div class="absolute w-80 h-80 bg-clinical-100 rounded-full blur-3xl opacity-40 top-0 pulse-circle"></div>
+                <div class="absolute w-80 h-80 bg-diagnostic-100 rounded-full blur-3xl opacity-40 bottom-0 pulse-circle" style="animation-delay: 1.5s;"></div>
+                
+                <div class="relative glass-card p-3 rounded-3xl max-w-sm shadow-xl border border-white/80 group">
+                    <div class="overflow-hidden rounded-2xl bg-slate-100 aspect-[4/5] relative">
+                        <img src="photo.png" alt="Mohammed Siddiq M S Profile" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+   <style>
+        /* Custom Animations for IoT Data Transfer */
+        .wifi-arc-1 { animation: pulse-wifi 1.5s infinite; animation-delay: 0s; }
+        .wifi-arc-2 { animation: pulse-wifi 1.5s infinite; animation-delay: 0.2s; }
+        .wifi-arc-3 { animation: pulse-wifi 1.5s infinite; animation-delay: 0.4s; }
+        .data-dot { animation: slide-data 1.5s infinite linear; }
+        
+        @keyframes pulse-wifi {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 1; }
+        }
+        @keyframes slide-data {
+            0% { transform: translateX(0px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(150px); opacity: 0; }
+        }
+    </style>
+
+    <section id="profile" class="py-24 bg-white relative z-10 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+             <div class="max-w-3xl mx-auto text-center mb-16 animate-trigger">
+                <span class="text-xs font-bold tracking-widest text-clinical-600 uppercase block mb-3">Executive Summary</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl text-slate-900 mb-4">Driving Innovation via Hardware & Web</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-clinical-600 to-diagnostic-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5">
+                    <div class="p-6 rounded-2xl bg-slate-900 text-tech-400 shadow-xl font-mono text-xs relative overflow-hidden h-60 flex flex-col justify-between border border-slate-700">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-tech-500 animate-ping"></span> IOT_TELEMETRY_LINK</span>
+                            <span class="text-slate-400">STATUS: SYNCED</span>
+                        </div>
+                        
+                        <svg viewBox="0 0 400 100" class="w-full h-24">
+                            <rect x="40" y="25" width="50" height="50" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/>
+                            <circle cx="65" cy="50" r="12" fill="#0c4a6e" stroke="#0284c7" stroke-width="2"/>
+                            <circle cx="65" cy="50" r="4" fill="#38bdf8" class="animate-pulse"/>
+                    
+                            <path d="M 105 35 A 20 20 0 0 1 105 65" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" class="wifi-arc-1"/>
+                            <path d="M 115 25 A 35 35 0 0 1 115 75" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" class="wifi-arc-2"/>
+                            <path d="M 125 15 A 50 50 0 0 1 125 85" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" class="wifi-arc-3"/>
+                    
+                            <line x1="135" y1="50" x2="285" y2="50" stroke="#1e293b" stroke-width="2" stroke-dasharray="4 4"/>
+                    
+                            <circle cx="135" cy="50" r="3" fill="#38bdf8" class="data-dot"/>
+                            <circle cx="135" cy="50" r="3" fill="#38bdf8" class="data-dot" style="animation-delay: 0.75s;"/>
+                    
+                            <rect x="300" y="15" width="40" height="70" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+                            <rect x="305" y="20" width="30" height="50" rx="2" fill="#1e3a8a"/>
+                            <rect x="310" y="45" width="20" height="10" rx="2" fill="#38bdf8" class="animate-pulse"/>
+                            <circle cx="320" cy="78" r="3" fill="#3b82f6"/>
+                        </svg>
+
+                        <div class="grid grid-cols-3 gap-2 text-[10px] text-slate-400 text-center border-t border-slate-800 pt-3">
+                            <div>PROTOCOL: <span class="text-tech-400 font-bold">MQTT</span></div>
+                            <div>PING: <span class="text-tech-400 font-bold">12ms</span></div>
+                            <div>PKTS: <span class="text-tech-400 font-bold">SENT</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 space-y-6 animate-trigger">
+                    <p class="text-lg text-slate-700 leading-relaxed font-medium">
+                        Dedicated professional combining engineering mechanics with digital programming to build comprehensive systems.
+                    </p>
+                    <p class="text-slate-600 leading-relaxed">
+                       I specialize in designing and developing robotics and embedded system prototypes within collaborative R&D environments. My expertise covers integrating multiple technical layers—from microcontroller circuit design and IoT automation platforms to front-end web development to ensure seamless user experiences.
+                    </p>
+                    
+                    <div class="mt-6 border-t border-slate-100 pt-6">
+                        <h3 class="text-xs font-bold tracking-widest text-slate-800 uppercase mb-5">IoT & Core Domains</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-tech-50 flex items-center justify-center text-tech-600 border border-tech-100 flex-shrink-0 shadow-sm">
+                                    <i data-lucide="bot" class="w-4 h-4"></i>
+                                </div>
+                                <span class="text-sm font-bold text-green-600"> Robotics And Automation </span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-deepblue-50 flex items-center justify-center text-deepblue-600 border border-deepblue-100 flex-shrink-0 shadow-sm">
+                                    <i data-lucide="wifi" class="w-4 h-4"></i>
+                                </div>
+                                <span class="text-sm font-bold text-green-600"> Internet Of Things </span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-tech-50 flex items-center justify-center text-tech-600 border border-tech-100 flex-shrink-0 shadow-sm">
+                                    <i data-lucide="cpu" class="w-4 h-4"></i>
+                                </div>
+                                <span class="text-sm font-bold text-green-600"> Electronics And Circuits </span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-deepblue-50 flex items-center justify-center text-deepblue-600 border border-deepblue-100 flex-shrink-0 shadow-sm">
+                                    <i data-lucide="layout" class="w-4 h-4"></i>
+                                </div>
+                                <span class="text-sm font-bold text-green-600"> Static Website Development </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <section id="competencies" class="py-24 bg-slate-50 relative z-10 border-y border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16 animate-trigger">
+                <span class="text-xs font-bold tracking-widest text-clinical-600 uppercase block mb-3">Technical Skills</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl text-slate-900 mb-4">Core Competencies Matrix</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-clinical-600 to-diagnostic-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 1. Embedded Systems -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-tech-50 text-tech-600 flex items-center justify-center mb-6 border border-tech-100 shadow-sm">
+                            <i data-lucide="cpu" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-800 mb-2">Embedded Systems</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Proficient in Embedded C, microcontrollers, circuit design, and developing full embedded applications[cite: 1].</p>
+                    </div>
+                </div>
+
+                <!-- 2. IoT & Automation -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-deepblue-50 text-deepblue-600 flex items-center justify-center mb-6 border border-deepblue-100 shadow-sm">
+                            <i data-lucide="wifi" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-800 mb-2">IoT & Automation</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Experienced in IoT Application Development, Robotic Process Automation (UiPath), and Industrial IoT deployment[cite: 1].</p>
+                    </div>
+                </div>
+
+                <!-- 3. Robotics -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-tech-50 text-tech-600 flex items-center justify-center mb-6 border border-tech-100 shadow-sm">
+                            <i data-lucide="bot" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-800 mb-2">Robotics</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Skilled in structural robotics design, automation engineering, and hands-on R&D prototyping[cite: 1].</p>
+                    </div>
+                </div>
+
+                <!-- 4. Static Web Development -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-deepblue-50 text-deepblue-600 flex items-center justify-center mb-6 border border-deepblue-100 shadow-sm">
+                            <i data-lucide="layout" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-800 mb-2">Static Web Development</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Strong capability in creating responsive static and portfolio websites using HTML, CSS, JavaScript, and SEO[cite: 1].</p>
+                    </div>
+                </div>
+
+                <!-- 5. 3D Design & Engineering (Added from Resume) -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-tech-50 text-tech-600 flex items-center justify-center mb-6 border border-tech-100 shadow-sm">
+                            <i data-lucide="box" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-800 mb-2">3D Design & Engineering</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Expertise in Smart Plant 3D Designing and utilizing CADWorx for precise mechanical frameworks[cite: 1].</p>
+                    </div>
+                </div>
+
+                <!-- 6. Professional Soft Skills (Added from Resume) -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-deepblue-50 text-deepblue-600 flex items-center justify-center mb-6 border border-deepblue-100 shadow-sm">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-800 mb-2">Leadership & Soft Skills</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Strong foundation in project leadership, complex problem solving, decision making, and team collaboration[cite: 1].</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+   <section id="experience" class="py-24 bg-white relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16 animate-trigger">
+                <span class="text-xs font-bold tracking-widest text-clinical-600 uppercase block mb-3">Professional Experience</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl text-slate-900 mb-4">Career Trajectory</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-clinical-600 to-diagnostic-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="max-w-5xl mx-auto border-l-2 border-slate-200 pl-6 sm:pl-12 ml-4 relative space-y-12">
+                
+               <div class="relative">
+                    <div class="absolute left-0 top-6 w-8 h-8 rounded-full bg-white border-2 border-clinical-600 flex items-center justify-center -translate-x-[43px] sm:-translate-x-[67px] shadow-sm z-20">
+                        <i data-lucide="building" class="w-4 h-4 text-clinical-600"></i>
+                    </div>
+                    
+                    <a href="jeesabot experience.pdf" target="_blank" class="block group">
+                        <div class="glass-card p-8 rounded-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border border-slate-200/80 shadow-sm hover:shadow-md hover:border-clinical-300 transition-all duration-300 bg-gradient-to-br from-white to-slate-50/50">
+                            
+                            <div class="lg:col-span-8 space-y-3.5">
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <span class="inline-block px-3 py-1 bg-clinical-50 text-clinical-700 text-xs font-bold uppercase rounded-md tracking-wider">
+                                        March 2023 - Present
+                                    </span>
+                                    
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium text-[10px] uppercase tracking-wider group-hover:bg-clinical-600 group-hover:text-white transition-colors duration-200">
+                                        View Experience Certificate <i data-lucide="file-check" class="w-3 h-3"></i>
+                                    </span>
+                                </div>
+                                
+                                <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900 group-hover:text-clinical-600 transition-colors mb-1">
+                                    Research & Development Engineer
+                                </h3>
+                                <h4 class="text-sm font-semibold text-diagnostic-600 mb-4">
+                                    Jeesabot Robotics L.L.P, Thamaraikulam, Kanyakumari, Tamil Nadu - 629701
+                                </h4>
+                                
+                                <ul class="space-y-3.5 text-sm text-slate-600">
+                                    <li class="flex items-start gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-clinical-600 mt-2 flex-shrink-0"></span>
+                                        <span> Designed and developed robotics and embedded system prototypes within the R&D team.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-clinical-600 mt-2 flex-shrink-0"></span>
+                                        <span>Applied Embedded C and IoT principles to deliver engineering solutions in production environments.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-clinical-600 mt-2 flex-shrink-0"></span>
+                                        <span>Successfully led multidisciplinary teams and spearheaded core projects focused on IoT, robotics, instruments, and electronics.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="lg:col-span-4 flex justify-center items-center h-full w-full">
+                                <div class="p-4 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow max-w-[240px] w-full aspect-video sm:aspect-square flex items-center justify-center group overflow-hidden">
+                                    <img src="jeesabot logo.png" alt="GKNM Hospital Logo" class="w-full h-full object-contain transition-transform duration-500 transform group-hover:scale-102">
+                                </div>
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute left-0 top-6 w-8 h-8 rounded-full bg-white border-2 border-diagnostic-500 flex items-center justify-center -translate-x-[43px] sm:-translate-x-[67px] shadow-sm z-20">
+                        <i data-lucide="award" class="w-4 h-4 text-diagnostic-500"></i>
+                    </div>
+                    
+                    <a href="business.pdf" target="_blank" class="block group">
+                        <div class="glass-card p-8 rounded-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border border-slate-200/80 shadow-sm hover:shadow-md hover:border-diagnostic-300 transition-all duration-300 bg-gradient-to-br from-white to-slate-50/50">
+                            
+                            <div class="lg:col-span-8 space-y-3.5">
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <span class="inline-block px-3 py-1 bg-diagnostic-50 text-diagnostic-700 text-xs font-bold uppercase rounded-md tracking-wider">
+                                        April 2024
+                                    </span>
+                                    
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium text-[10px] uppercase tracking-wider group-hover:bg-diagnostic-600 group-hover:text-white transition-colors duration-200">
+                                        View Business Profile <i data-lucide="file-check" class="w-3 h-3"></i>
+                                    </span>
+                                </div>
+                                
+                                <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900 group-hover:text-diagnostic-600 transition-colors mb-1">
+                                    Freelance Static Website Developer
+                                </h3>
+                                <h4 class="text-sm font-semibold text-diagnostic-600 mb-4">
+                                    Zenarc Innovations
+                                </h4>
+                                
+                                <ul class="space-y-3.5 text-sm text-slate-600">
+                                    <li class="flex items-start gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-diagnostic-500 mt-2 flex-shrink-0"></span>
+                                        <span>Designed and developed static and portfolio websites for clients across multiple industries.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-diagnostic-500 mt-2 flex-shrink-0"></span>
+                                        <span>Delivered responsive websites tailored to client brand identity and goals.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-diagnostic-500 mt-2 flex-shrink-0"></span>
+                                        <span>Managed full project lifecycle: requirements, design, development, and deployment.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="lg:col-span-4 flex justify-center items-center h-full w-full">
+                                <div class="p-4 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow max-w-[240px] w-full aspect-video sm:aspect-square flex items-center justify-center group overflow-hidden">
+                                    <img src="zenarc.png" alt="zenarc" class="w-full h-full object-contain transition-transform duration-500 transform group-hover:scale-102">
+                                </div>
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+                <div class="relative">
+                    <div class="absolute left-0 top-6 w-8 h-8 rounded-full bg-white border-2 border-diagnostic-500 flex items-center justify-center -translate-x-[43px] sm:-translate-x-[67px] shadow-sm z-20">
+                        <i data-lucide="award" class="w-4 h-4 text-diagnostic-500"></i>
+                    </div>
+                    
+                    <a href="aic report.pdf" target="_blank" class="block group">
+                        <div class="glass-card p-8 rounded-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border border-slate-200/80 shadow-sm hover:shadow-md hover:border-diagnostic-300 transition-all duration-300 bg-gradient-to-br from-white to-slate-50/50">
+                            
+                            <div class="lg:col-span-8 space-y-3.5">
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <span class="inline-block px-3 py-1 bg-diagnostic-50 text-diagnostic-700 text-xs font-bold uppercase rounded-md tracking-wider">
+                                        January 2022 - March 2023
+                                    </span>
+                                    
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium text-[10px] uppercase tracking-wider group-hover:bg-diagnostic-600 group-hover:text-white transition-colors duration-200">
+                                        View Work Report <i data-lucide="file-check" class="w-3 h-3"></i>
+                                    </span>
+                                </div>
+                                
+                                <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900 group-hover:text-diagnostic-600 transition-colors mb-1">
+                                    Project Lead - Smart Minds Hackathon
+                                </h3>
+                                <h4 class="text-sm font-semibold text-diagnostic-600 mb-4">
+                                    AIC RAISE Business Incubator, Coimbatore
+                                </h4>
+                                
+                                <ul class="space-y-3.5 text-sm text-slate-600">
+                                    <li class="flex items-start gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-diagnostic-500 mt-2 flex-shrink-0"></span>
+                                        <span> Led a multidisciplinary team in developing and pitching innovative technology solutions.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-diagnostic-500 mt-2 flex-shrink-0"></span>
+                                        <span>Managed project timelines, prototyping, and national-level competition presentations.</span>
+                                    </li>
+                                     <li class="flex items-start gap-3">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-diagnostic-500 mt-2 flex-shrink-0"></span>
+                                        <span>Achieved 1st Runner-Up at a National Level competition organised by NITI Aayog.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="lg:col-span-4 flex justify-center items-center h-full w-full">
+                                <div class="p-4 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow max-w-[240px] w-full aspect-video sm:aspect-square flex items-center justify-center group overflow-hidden">
+                                    <img src="aic.jpg" alt="AIC RAISE Logo" class="w-full h-full object-contain transition-transform duration-500 transform group-hover:scale-102">
+                                </div>
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+
+            </div> </div>
+    </section>
+
+<section id="exposure" class="py-24 bg-slate-50 relative z-10 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16 animate-trigger">
+                <span class="text-xs font-bold tracking-widest text-clinical-600 uppercase block mb-3">Asset Specialization</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl text-slate-900 mb-4"> Technical Exposure</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-clinical-600 to-diagnostic-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 1. Embedded C -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-clinical-50 text-clinical-600 flex items-center justify-center mb-4">
+                            <i data-lucide="cpu" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">Embedded C</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Core programming capability for hardware logic and embedded application development.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Microcontrollers -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-diagnostic-50 text-diagnostic-600 flex items-center justify-center mb-4">
+                            <i data-lucide="microchip" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">Microcontrollers</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Architectural knowledge and deployment of various microcontroller units.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Circuit Design -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-clinical-50 text-clinical-600 flex items-center justify-center mb-4">
+                            <i data-lucide="zap" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">Circuit Design</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Designing electronic schematics and circuitry for embedded prototypes.</p>
+                    </div>
+                </div>
+
+                <!-- 4. IoT Applications -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-diagnostic-50 text-diagnostic-600 flex items-center justify-center mb-4">
+                            <i data-lucide="wifi" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">IoT Applications</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Developing real-time connected systems and Internet of Things architectures.</p>
+                    </div>
+                </div>
+
+                <!-- 5. RPA (UiPath) -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-clinical-50 text-clinical-600 flex items-center justify-center mb-4">
+                            <i data-lucide="bot" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">RPA (UiPath)</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Automating repetitive digital workflows using Robotic Process Automation tools.</p>
+                    </div>
+                </div>
+
+                <!-- 6. Industrial IoT -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-diagnostic-50 text-diagnostic-600 flex items-center justify-center mb-4">
+                            <i data-lucide="factory" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">Industrial IoT</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Exposure to industrial embedded systems integrated with IoT platforms.</p>
+                    </div>
+                </div>
+
+                <!-- 7. Smart Plant 3D -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-clinical-50 text-clinical-600 flex items-center justify-center mb-4">
+                            <i data-lucide="box" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">Smart Plant 3D</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Creating structural and mechanical 3D modeling frameworks.</p>
+                    </div>
+                </div>
+
+                <!-- 8. CADWorx -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-diagnostic-50 text-diagnostic-600 flex items-center justify-center mb-4">
+                            <i data-lucide="pen-tool" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">CADWorx</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Utilizing CAD engineering software for precision design and drafting.</p>
+                    </div>
+                </div>
+
+                <!-- 9. HTML, CSS, JS -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-clinical-50 text-clinical-600 flex items-center justify-center mb-4">
+                            <i data-lucide="code" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">HTML, CSS, JS</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Full front-end web development stack for building responsive websites.</p>
+                    </div>
+                </div>
+
+                <!-- 10. SEO Implementation -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-diagnostic-50 text-diagnostic-600 flex items-center justify-center mb-4">
+                            <i data-lucide="search" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">SEO Implementation</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Optimizing web structures and content for search engine visibility.</p>
+                    </div>
+                </div>
+
+                <!-- 11. Digital Marketing -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-clinical-50 text-clinical-600 flex items-center justify-center mb-4">
+                            <i data-lucide="trending-up" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">Digital Marketing</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Implementing digital marketing strategies through Google Digital training.</p>
+                    </div>
+                </div>
+
+                <!-- 12. EV Infrastructure -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-diagnostic-50 text-diagnostic-600 flex items-center justify-center mb-4">
+                            <i data-lucide="battery-charging" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">EV Infrastructure</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Familiarity with Electric Vehicle charging networks and wireless transceiver chargers.</p>
+                    </div>
+                </div>
+
+                <!-- 13. ESP32 & Telemetry -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-clinical-50 text-clinical-600 flex items-center justify-center mb-4">
+                            <i data-lucide="satellite" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">ESP32 & Telemetry</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Deploying ESP32 modules for wireless data collection and telemetry systems.</p>
+                    </div>
+                </div>
+
+                <!-- 14. Sensor Integration -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-diagnostic-50 text-diagnostic-600 flex items-center justify-center mb-4">
+                            <i data-lucide="radio" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">Sensor Integration</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Configuring Ultrasonic, PIR, temperature, and humidity tracking sensors.</p>
+                    </div>
+                </div>
+
+                <!-- 15. Renewable Energy -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-clinical-50 text-clinical-600 flex items-center justify-center mb-4">
+                            <i data-lucide="sun" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">Renewable Energy</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Developing concepts for off-grid energy panels and vertical blade turbines.</p>
+                    </div>
+                </div>
+
+                <!-- 16. Health Monitoring -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-diagnostic-50 text-diagnostic-600 flex items-center justify-center mb-4">
+                            <i data-lucide="heart-pulse" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-base text-slate-800 mb-1">Health Monitoring</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Designing real-time, IoT-based patient health monitoring instrumentation.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+  <section id="projects" class="py-24 bg-white relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16 animate-trigger">
+                <span class="text-xs font-bold tracking-widest text-clinical-600 uppercase block mb-3">Project Portfolio</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl text-slate-900 mb-4">Engineering Innovations Developed</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-clinical-600 to-diagnostic-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Embedded System</span>
+                            <i data-lucide="cpu" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Lumin Accumulator & Hybrid DJ System</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Multi-functional embedded system integrating energy accumulation, timekeeping, and audio mixing.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Energy Accumulation</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Audio Mixing</span>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                         <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Automotive / EV</span>
+                            <i data-lucide="battery-charging" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Transceiver Charger for Electric Vehicles</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Wireless EV charging system.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Wireless Charging</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Surveillance</span>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Automation / AI</span>
+                            <i data-lucide="shopping-cart" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">E-Commerce Bargaining Bot</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Automated dynamic-pricing negotiation bot.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Automated Bot</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Energy Monitoring</span>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Renewable / IoT</span>
+                            <i data-lucide="activity" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Turbine & Health Monitoring System</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Renewable energy prototype combined with loT-based real-time health monitoring.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Renewable Energy</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">IoT Health</span>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Smart Devices</span>
+                            <i data-lucide="shield-alert" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Women's Safety SOS System</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">One-touch SOS alert with real-time location sharing to nearby police stations.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">SOS Alert</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Location Sharing</span>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Robotics</span>
+                            <i data-lucide="package" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Autonomous Delivery Robot</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Transports objects between predefined locations without human intervention.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Autonomous Navigation</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Robotics</span>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Robotics</span>
+                            <i data-lucide="navigation" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Obstacle Avoidance Robot</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Detects and avoids obstacles using ultrasonic sensing.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Ultrasonic Sensing</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Automation</span>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">IoT Infrastructure</span>
+                            <i data-lucide="lightbulb" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Smart Street Lighting & Cold Storage</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Automated lighting control and temperature/humidity tracking.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Automation</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Climate Tracking</span>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Home Automation</span>
+                            <i data-lucide="lock" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Smart Door Lock System</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Secure remote access and real-time monitoring.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Access Control</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Real-time Monitoring</span>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Assistive Tech</span>
+                            <i data-lucide="settings" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Smart Wheelchair Prototype</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Low-cost assistive prototype featuring real-time slope detection and an integrated electromagnetic emergency braking system.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Slope Detection</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">EM Braking</span>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Software / Backend</span>
+                            <i data-lucide="server" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">LiveQueue Appointment Platform</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Designed a stateless, multi-tenant real-time hospital appointment tracking architecture utilizing Java virtual threads and Redis.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Java Virtual Threads</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Redis Data</span>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase rounded-md border border-green-200">Tech Entrepreneurship</span>
+                            <i data-lucide="rocket" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Zenarc Innovations</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">Initiated a localized engineering and robotics consulting initiative focusing on customized hardware and automation solutions.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] font-semibold text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Tech Consulting</span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded">Robotics Solutions</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    <section id="patents" class="py-24 bg-gradient-to-b from-white to-slate-50 relative z-10 border-t border-slate-200/60">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="max-w-3xl mx-auto text-center mb-16 animate-trigger">
+                <span class="text-xs font-bold tracking-widest text-clinical-600 uppercase block mb-3">Proof of Concept (PoC) Engineering</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl text-slate-900 mb-4">Product Innovation & Development</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-clinical-600 to-diagnostic-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-0 group hover:border-clinical-300 hover:shadow-2xl transition-all duration-300">
+                
+                <div class="lg:col-span-5 bg-slate-900 p-8 flex flex-col justify-between relative min-h-[400px]">
+                    <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#0d9488_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                    
+                    <div class="relative z-10 w-full flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+                        <span class="text-[10px] font-mono tracking-wider text-clinical-500 uppercase">Design Representation Sheet</span>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase">Official Render</span>
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 flex-1 flex items-center justify-center p-4">
+                        <img id="patent-view-1" src="1.jpeg" alt="Travel-Friendly BiPAP Device Front View" class="w-full max-w-[280px] h-auto object-contain transition-all duration-500 transform group-hover:scale-102 drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)]">
+                        <img id="patent-view-2" src="2.jpeg" alt="Travel-Friendly BiPAP Device Back View" class="w-full max-w-[280px] h-auto object-contain transition-all duration-500 transform group-hover:scale-102 drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)] hidden">
+                    </div>
+
+                    <div class="relative z-10 w-full flex items-center justify-center gap-3 pt-4 border-t border-slate-800/60 mt-4">
+                        <button onclick="event.preventDefault(); togglePatentView(1)" id="btn-pview-1" class="px-3 py-1.5 rounded-lg bg-clinical-600 text-white font-mono text-[10px] font-bold tracking-wide uppercase transition-all shadow-md">
+                            Semi-Build
+                        </button>
+                        <button onclick="event.preventDefault(); togglePatentView(2)" id="btn-pview-2" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-mono text-[10px] font-bold tracking-wide uppercase transition-all">
+                            Complete Product
+                        </button>
+                    </div>
+                </div>
+
+               <div class="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-between bg-white relative">
+                    
+                    <div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+                            
+                            <div class="flex items-center gap-2 self-start sm:self-center">
+                                
+                                <a href="auradesign.pdf" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-800 hover:text-white text-[10px] font-bold tracking-wide uppercase transition-colors duration-200 shadow-sm">
+                                    View Design <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <h3 class="font-display font-bold text-2xl text-slate-900 leading-tight mb-2 group-hover:text-clinical-600 transition-colors duration-200">
+                            Design of the Aura Smart Desktop Companion Robot
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed mb-6 max-w-xl">
+                            Engineered an interactive desktop robotic companion powered by an ESP32 microcontroller. The system leverages integrated capacitive touch sensing for intuitive user interaction, enabling seamless control over real-time telemetry displays and smart notifications.
+                        </p>
+
+                       <div class="border-y border-slate-100 py-6 mb-6">
+                                <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Project Demonstration</span>
+                                
+                <div class="border-y border-slate-100 py-6 mb-6">
+                    
+                                
+                                <!-- Grid container to place videos side-by-side -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    
+                                    <!-- Video 1 -->
+                                    <div class="w-full rounded-2xl overflow-hidden shadow-sm border border-slate-200/80 bg-slate-900 relative group">
+                                        <video class="w-full h-auto block object-cover" controls autoplay loop muted playsinline poster="auravideo.jpeg">
+                                            <source src="auravideo.mp4" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+                                    
+                                    <!-- Video 2 -->
+                                    <div class="w-full rounded-2xl overflow-hidden shadow-sm border border-slate-200/80 bg-slate-900 relative group">
+                                        <!-- Replace 'second_video.mp4' and 'second_poster.jpeg' with your files -->
+                                        <video class="w-full h-auto block object-cover" controls autoplay loop muted playsinline poster="second_poster.jpeg">
+                                            <source src="auravideo2.mp4" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+
+                                </div>
+                            </div>
+                            </div>
+
+                </div>
+            </div>
+            
+
+        </div>
+    </section>
+
+   <section id="publications" class="py-24 bg-slate-50 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16 animate-trigger">
+                <span class="text-xs font-bold tracking-widest text-diagnostic-600 uppercase block mb-3">Accolades</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl text-slate-900 mb-4">Achievements & Awards</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-diagnostic-600 to-clinical-600 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                
+                <a href="VISIONARY.pdf" target="_blank" class="block group">
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-diagnostic-300 transition-all duration-300 flex flex-col justify-between h-full relative overflow-hidden bg-gradient-to-br from-white to-slate-50/50">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="inline-block px-2.5 py-1 bg-diagnostic-50 text-diagnostic-700 text-[11px] font-bold uppercase rounded tracking-wider">
+                                    2025
+                                </span>
+                                <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-diagnostic-500 group-hover:bg-diagnostic-50 transition-colors">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+                            
+                            <h3 class="font-display font-bold text-lg sm:text-xl text-slate-900 group-hover:text-diagnostic-600 transition-colors mb-3 line-clamp-3">
+                                Visionary of the Year 2025
+                            </h3>
+                            
+                            <p class="text-xs font-semibold text-slate-500 mb-4">
+                                Awarded By JeesaBot Robotics L.L.P
+                            </p>
+                            
+                            <p class="text-xs text-slate-600 leading-relaxed mb-6">
+                                Honored to be recognized as Visionary of the Year 2025. This award celebrates the relentless pursuit of innovation and the courage to challenge the status quo. I am deeply committed to driving systemic change and shaping a future where bold ideas translate into meaningful, real-world impact.
+                            </p>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+                            <span class="text-slate-400 font-mono">Awarded For Providing Innovative Solutions </span>
+                            <span class="font-bold text-diagnostic-600 flex items-center gap-1.5 group-hover:underline">
+                                View PDF <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <a href="aicraise.pdf" target="_blank" class="block group">
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-diagnostic-300 transition-all duration-300 flex flex-col justify-between h-full relative overflow-hidden bg-gradient-to-br from-white to-slate-50/50">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="inline-block px-2.5 py-1 bg-diagnostic-50 text-diagnostic-700 text-[11px] font-bold uppercase rounded tracking-wider">
+                                    2023
+                                </span>
+                                <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-diagnostic-500 group-hover:bg-diagnostic-50 transition-colors">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+                            
+                            <h3 class="font-display font-bold text-lg sm:text-xl text-slate-900 group-hover:text-diagnostic-600 transition-colors mb-3 line-clamp-3">
+                                Project Lead - Smart Minds Hackathon
+                            </h3>
+                            
+                            <p class="text-xs font-semibold text-slate-500 mb-4">
+                                Awarded By AIC RAISE Business Incubator, Coimbatore
+                            </p>
+                            
+                            <p class="text-xs text-slate-600 leading-relaxed mb-6">
+                                Awarded for leadership as Project Lead for the Smart Minds Hackathon. This recognition reflects a commitment to driving systemic change by fostering collaborative environments where complex problems meet creative, scalable solutions. Dedicated to bridging the gap between innovative vision and high-impact execution."
+                            </p>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+                            <span class="text-slate-400 font-mono">Awarded For ProtoTyping On-Grid System </span>
+                            <span class="font-bold text-diagnostic-600 flex items-center gap-1.5 group-hover:underline">
+                                View PDF <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+<a href="ACADEMIC TOPPER.pdf" target="_blank" class="block group">
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-diagnostic-300 transition-all duration-300 flex flex-col justify-between h-full relative overflow-hidden bg-gradient-to-br from-white to-slate-50/50">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="inline-block px-2.5 py-1 bg-diagnostic-50 text-diagnostic-700 text-[11px] font-bold uppercase rounded tracking-wider">
+                                    2021-2023
+                                </span>
+                                <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-diagnostic-500 group-hover:bg-diagnostic-50 transition-colors">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+                            
+                            <h3 class="font-display font-bold text-lg sm:text-xl text-slate-900 group-hover:text-diagnostic-600 transition-colors mb-3 line-clamp-3">
+                                Academic Topper 2025
+                            </h3>
+                            
+                            <p class="text-xs font-semibold text-slate-500 mb-4">
+                                Awarded By Rohini College Of Engineering & Technology 
+                            </p>
+                            
+                            <p class="text-xs text-slate-600 leading-relaxed mb-6">
+                                It is a privilege to be recognized with the Academic Topper Award. This honor serves as a testament to the importance of pushing boundaries and continuously seeking innovative solutions to complex problems.
+
+I remain dedicated to challenging the status quo, and I am eager to apply this mindset to create systemic change. I look forward to the challenge of turning ambitious, forward-thinking concepts into tangible results that make a lasting difference.
+                            </p>
+                             <div class="grid grid-cols-2 gap-4 mb-6">
+      <img src="at1.jpeg" alt="Medx Botathon Presentation" class="rounded-lg object-cover w-full h-40 border border-slate-100">
+      <img src="at2.jpeg" alt="Medx Botathon Award Ceremony" class="rounded-lg object-cover w-full h-40 border border-slate-100">
+    </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+                            <span class="text-slate-400 font-mono">Awarded For Providing Innovative Solutions </span>
+                            <span class="font-bold text-diagnostic-600 flex items-center gap-1.5 group-hover:underline">
+                                View PDF <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+               <div class="flex justify-center w-full">
+  <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-clinical-300 transition-all duration-300 w-full max-w-2xl relative overflow-hidden bg-gradient-to-br from-white to-slate-50/50">
+    
+    <div class="flex items-center justify-between mb-4">
+      <span class="inline-block px-2.5 py-1 bg-clinical-50 text-clinical-700 text-[11px] font-bold uppercase rounded tracking-wider">
+        2026
+      </span>
+    </div>
+
+    <h3 class="font-display font-bold text-lg sm:text-xl text-slate-900 mb-3">
+      MEDX BOTATHON 2026 - Hackathon Judge
+    </h3>
+    
+    <p class="text-xs font-semibold text-slate-500 mb-4">
+      Department of Biomedical Engineering • RCET
+    </p>
+
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <img src="medx1.jpeg" alt="Medx Botathon Presentation" class="rounded-lg object-cover w-full h-40 border border-slate-100">
+      <img src="medx2.png" alt="Medx Botathon Award Ceremony" class="rounded-lg object-cover w-full h-40 border border-slate-100">
+    </div>
+    
+    <p class="text-xs text-slate-600 leading-relaxed mb-4">
+      Serving as Chief Guest at Medx Botathon 2026, I am honored to engage with the next generation of innovators in medical robotics. My work is dedicated to bridging the gap between complex biomedical engineering and practical, life-changing therapeutic solutions. I am committed to fostering a culture of technical excellence and creative problem-solving in the healthcare technology landscape.
+    </p>
+    
+    <div class="pt-4 border-t border-slate-100 text-xs">
+      <span class="text-slate-400 font-mono">As Chief Guest In RCET</span>
+    </div>
+    
+  </div>
+  
+</div>
+
+
+</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16 animate-trigger">
+                <span class="text-xs font-bold tracking-widest text-clinical-600 uppercase block mb-3">Academic Base</span>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl text-slate-900 mb-4">Education History</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-clinical-600 to-diagnostic-500 mx-auto rounded-full"></div>
+            </div>
+
+            <<div class="max-w-2xl mx-auto glass-card p-6 rounded-2xl flex justify-between items-center gap-4">
+    <div>
+        <span class="text-[10px] font-bold uppercase text-clinical-600 bg-clinical-50 px-2 py-0.5 rounded tracking-wider">2020 - 2024</span>
+        <h3 class="font-display font-bold text-lg text-slate-900 mt-2">B.E. Electronics And Communication Engineer</h3>
+        <h4 class="text-xs font-semibold text-diagnostic-600">Robotics And Automation (Minors) </h4>
+        <p class="text-xs text-slate-500 mt-1">Rohini College of Engineering & Technology, Anjugramam</p>
+        
+        <div class="flex gap-2 mt-4">
+            <a href="Degree.pdf" target="_blank" class="text-[10px] font-bold uppercase text-white bg-slate-800 px-3 py-1.5 rounded hover:bg-slate-900 transition-colors">
+                View Degree
+            </a>
+            <a href="Marksheet.pdf" target="_blank" class="text-[10px] font-bold uppercase text-slate-700 bg-slate-100 px-3 py-1.5 rounded hover:bg-slate-200 transition-colors">
+                View Marksheets
+            </a>
+        </div>
+    </div>
+    <div class="w-12 h-12 bg-slate-50 border border-slate-200 text-slate-400 rounded-xl flex items-center justify-center flex-shrink-0">
+        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+    </div>
+</div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 bg-slate-50 relative z-10 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="bg-gradient-to-br from-clinical-900 via-clinical-800 to-slate-900 rounded-3xl p-10 md:p-16 shadow-2xl text-white flex flex-col items-center justify-center text-center relative overflow-hidden group">
+                
+                <div class="absolute -top-24 -right-24 w-72 h-72 bg-clinical-600 rounded-full blur-3xl opacity-20 pointer-events-none transition-transform duration-700 group-hover:scale-110"></div>
+                
+                <div class="relative z-10 w-full max-w-2xl flex flex-col items-center">
+                    <span class="text-[11px] font-bold tracking-widest text-clinical-100 uppercase bg-clinical-700/50 border border-clinical-600/40 px-3 py-1 rounded-full mb-4 shadow-sm">
+                        Open To Work
+                    </span>
+                    
+                    <h3 class="font-display font-bold text-3xl sm:text-4xl mb-4 tracking-tight">
+                        Professional Inquiries
+                    </h3>
+                    
+                    <p class="text-sm text-slate-300 leading-relaxed mb-10 max-w-lg">
+                        Dedicated Electronics and Communication Engineer seeking challenging opportunities within the GCC. Leveraging a strong technical foundation in circuit design, embedded systems, and signal processing to ensure the precision and safety.A detail-oriented professional committed to operational excellence and technical integrity, I am available for immediate relocation and professional deployment.
+                    </p>
+
+                    <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                        <a href="mailto:mohmdsidwork07@gmail.com" class="flex flex-col items-center justify-center p-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all duration-300 group/item">
+                            <div class="w-10 h-10 rounded-xl bg-clinical-700/60 text-clinical-100 flex items-center justify-center mb-3 border border-clinical-600/30 shadow-inner group-hover/item:scale-105 transition-transform">
+                                <i data-lucide="mail" class="w-5 h-5"></i>
+                            </div>
+                            <span class="text-xs font-semibold tracking-wide text-slate-200 select-all">mohmdsidwork07@gmail.com</span>
+                        </a>
+                        
+                        <a href="tel:+916383378324" class="flex flex-col items-center justify-center p-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all duration-300 group/item">
+                            <div class="w-10 h-10 rounded-xl bg-clinical-700/60 text-clinical-100 flex items-center justify-center mb-3 border border-clinical-600/30 shadow-inner group-hover/item:scale-105 transition-transform">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                            </div>
+                            <span class="text-xs font-semibold tracking-wide text-slate-200 select-all">+91 6383378324</span>
+                        </a>
+<a href="https://www.linkedin.com/in/siddiqms" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center justify-center p-5 bg-white/5 border border-white/10 rounded-2xl transition-all duration-300 hover:bg-white/10 hover:border-white/20">
+    <div class="w-10 h-10 rounded-xl bg-blue-600/60 text-white font-bold flex items-center justify-center mb-3 border border-blue-500/30 shadow-inner">
+        in
+    </div>
+    <span class="text-xs font-semibold tracking-wide text-slate-200">LinkedIn</span>
+</a>
+<a href="resume.pdf" target="_blank" class="flex flex-col items-center justify-center p-5 bg-white/5 border border-white/10 rounded-2xl transition-all duration-300 hover:bg-rose-500/20 hover:border-rose-500/50">
+    <div class="w-10 h-10 rounded-xl bg-rose-600/60 text-white flex items-center justify-center mb-3 border border-rose-500/30 shadow-inner">
+        <i data-lucide="file-text" class="w-5 h-5"></i>
+    </div>
+    <span class="text-xs font-semibold tracking-wide text-slate-200">View CV</span>
+</a>
+<a href="https://wa.me/916383378324" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center justify-center p-5 bg-white/5 border border-white/10 rounded-2xl transition-all duration-300 hover:bg-green-500/20 hover:border-green-500/50">
+    <div class="w-10 h-10 rounded-xl bg-green-600/60 text-white flex items-center justify-center mb-3 border border-green-500/30 shadow-inner">
+        <i data-lucide="message-circle" class="w-5 h-5"></i>
+    </div>
+    <span class="text-xs font-semibold tracking-wide text-slate-200">WhatsApp</span>
+</a>
+                        <div class="flex flex-col items-center justify-center p-5 bg-white/5 border border-white/10 rounded-2xl transition-all duration-300">
+                            <div class="w-10 h-10 rounded-xl bg-clinical-700/60 text-clinical-100 flex items-center justify-center mb-3 border border-clinical-600/30 shadow-inner">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </div>
+                            <span class="text-xs font-semibold tracking-wide text-slate-200">Nagercoil, Tamil Nadu, India</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-xs text-slate-400">
+                        <div><span class="font-bold text-clinical-400 uppercase tracking-wider">Languages:</span> English, Tamil, Malayalam</div>
+                        <div class="hidden sm:block w-1.5 h-1.5 bg-white/20 rounded-full"></div>
+                        <div><span class="font-bold text-clinical-400 uppercase tracking-wider">Nationality:</span> Indian</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+
+    <footer class="bg-slate-900 text-slate-500 py-10 border-t border-slate-800 relative z-10 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="text-left">
+                <span class="block text-white font-display font-bold text-md">Mohammed Siddiq M S </span>
+                <span class="text-[10px]">Electronics And Communication Engineer • Open To Work</span>
+            </div>
+            <div>
+                &copy; 2026 All Rights Reserved. Formatted for Professional Recruitment.<br>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Start UI Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggling
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+        const drawerLinks = document.querySelectorAll('.drawer-link');
+
+        menuToggle.addEventListener('click', () => mobileDrawer.classList.remove('translate-x-full'));
+        menuClose.addEventListener('click', () => mobileDrawer.classList.add('translate-x-full'));
+        drawerLinks.forEach(link => link.addEventListener('click', () => mobileDrawer.classList.add('translate-x-full')));
+
+        // Calculate and Render Scroll Progress Loading Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+
+        // CV Download Execution Action
+        function downloadResume() {
+            // Particle celebration effects execution safely
+            confetti({
+                particleCount: 100,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#0d9488', '#0ea5e9', '#134e4a']
+            });
+
+            // Creates actual local file link anchor element pipeline target
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.href = 'resume.pdf'; 
+            downloadAnchor.download = 'MOHAMMED_SIDDIQ_M_S_ECE_Engineer_CV.pdf';
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
+        }
+
+        // Form processing simulation trigger handler
+        function submitForm(event) {
+            event.preventDefault();
+            alert('Your professional message inquiry payload was saved successfully. Siddiq will follow up shortly.');
+            document.getElementById('contact-form').reset();
+        }
+// Interactive Toggle Function for Patent Device Renders
+        function togglePatentView(viewNumber) {
+            const img1 = document.getElementById('patent-view-1');
+            const img2 = document.getElementById('patent-view-2');
+            const btn1 = document.getElementById('btn-pview-1');
+            const btn2 = document.getElementById('btn-pview-2');
+
+            if(viewNumber === 1) {
+                img1.classList.remove('hidden');
+                img2.classList.add('hidden');
+                btn1.className = "px-3 py-1.5 rounded-lg bg-clinical-600 text-white font-mono text-[10px] font-bold tracking-wide uppercase transition-all shadow-md";
+                btn2.className = "px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-mono text-[10px] font-bold tracking-wide uppercase transition-all";
+            } else {
+                img1.classList.add('hidden');
+                img2.classList.remove('hidden');
+                btn1.className = "px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-mono text-[10px] font-bold tracking-wide uppercase transition-all";
+                btn2.className = "px-3 py-1.5 rounded-lg bg-clinical-600 text-white font-mono text-[10px] font-bold tracking-wide uppercase transition-all shadow-md";
+            }
+        }
+        // GSAP ScrollTrigger Section Reveal Controller Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Intro element transition parameters
+            gsap.from('.hero-content', {
+                opacity: 0,
+                y: 35,
+                duration: 1.2,
+                ease: 'power3.out'
+            });
+
+            // Continuous dynamic incremental metrics counters script logic configuration
+            const countFields = document.querySelectorAll('.counter-val');
+            countFields.forEach(field => {
+                const maxVal = parseInt(field.getAttribute('data-target'));
+                gsap.to(field, {
+                    innerText: maxVal,
+                    duration: 1.8,
+                    snap: { innerText: 1 },
+                    scrollTrigger: {
+                        trigger: field,
+                        start: 'top 92%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+
+            // Clean parallax scrolling interaction reveals for specific components layout framework
+            const scrollSections = document.querySelectorAll('.glass-card, .animate-trigger');
+            scrollSections.forEach(section => {
+                gsap.from(section, {
+                    opacity: 0,
+                    y: 25,
+                    duration: 0.75,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
